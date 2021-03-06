@@ -1,0 +1,37 @@
+$KNOB_DIM: 80px;
+$X_SPACING: 5px;
+
+$SLIDER_HEIGHT: $KNOB_DIM * 3 + $X_SPACING * 2;
+
+$LAUNCH_CONTROL_DIM: 8 * ($KNOB_DIM + $X_SPACING * 2);
+$LAUNCH_CONTROL_BORDER_RADIUS: 20px;
+
+$LINE_COLOR: #777;
+
+div.launch-control-container {
+  border: 1px solid $LINE_COLOR;
+  border-radius: $LAUNCH_CONTROL_BORDER_RADIUS;
+  padding: $X_SPACING * 10;
+}
+
+div.knob {
+  width: $KNOB_DIM;
+  height: $KNOB_DIM;
+  border-radius: 50%;
+  border: 1px solid $LINE_COLOR;
+  margin: $X_SPACING;
+}
+
+div.slider {
+  height: $SLIDER_HEIGHT;
+  width: $KNOB_DIM;
+  margin: $X_SPACING;
+  border: 1px solid $LINE_COLOR;
+}
+
+div.button {
+  height: $KNOB_DIM * 0.5;
+  width: $KNOB_DIM;
+  margin: $X_SPACING;
+  border: 1px solid $LINE_COLOR;
+}
