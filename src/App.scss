@@ -7,11 +7,41 @@ $LAUNCH_CONTROL_DIM: 8 * ($KNOB_DIM + $X_SPACING * 2);
 $LAUNCH_CONTROL_BORDER_RADIUS: 20px;
 
 $LINE_COLOR: #777;
+$BUTTON_COLOR: #ea6412;
+
+$HIGHLIGHT_CONTROL_COLOR: #ea6412;
+$HOVER_CONTROL_COLOR: #333;
+
+$BACKGROUND_COLOR: #fad4a2;
+
+body {
+  animation: fadeIn 1s ease-in-out;
+  background-color: $BACKGROUND_COLOR;
+}
+
+form {
+  background-color: #fff2;
+  border-radius: $LAUNCH_CONTROL_BORDER_RADIUS;
+}
 
 div.launch-control-container {
-  border: 1px solid $LINE_COLOR;
+  // border: 1px solid $LINE_COLOR;
   border-radius: $LAUNCH_CONTROL_BORDER_RADIUS;
-  padding: $X_SPACING * 10;
+  padding: $X_SPACING * 7;
+  background-color: #222;
+  color: white;
+}
+
+div.control {
+  text-align: center;
+  font-weight: 500;
+  padding: 2px;
+  overflow-wrap: break-word;
+  font-size: 12px;
+}
+
+div.control:hover {
+  background-color: $HOVER_CONTROL_COLOR;
 }
 
 div.knob {
@@ -20,6 +50,7 @@ div.knob {
   border-radius: 50%;
   border: 1px solid $LINE_COLOR;
   margin: $X_SPACING;
+  padding-top: 20px;
 }
 
 div.slider {
@@ -27,6 +58,7 @@ div.slider {
   width: $KNOB_DIM;
   margin: $X_SPACING;
   border: 1px solid $LINE_COLOR;
+  overflow-wrap: break-word;
 }
 
 div.button {
@@ -34,4 +66,33 @@ div.button {
   width: $KNOB_DIM;
   margin: $X_SPACING;
   border: 1px solid $LINE_COLOR;
+}
+
+div.highlight {
+  background-color: $HIGHLIGHT_CONTROL_COLOR !important;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.toolbar-btn {
+  background-color: $BUTTON_COLOR;
+  border-color: $BUTTON_COLOR;
+  color: white;
+}
+
+.toolbar-btn:hover {
+  color: white;
+  background-color: $HOVER_CONTROL_COLOR;
+  border-color: $HOVER_CONTROL_COLOR;
+}
+
+h1.instructions {
+  font-size: 16px;
 }
