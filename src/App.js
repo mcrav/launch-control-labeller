@@ -1,29 +1,30 @@
-import store from './store';
+import React from 'react';
+
+// Sass
 import './App.scss';
-import { connect } from 'react-redux';
+
+// Redux
+import store from './store';
 import launchControlSlice from './launchControlSlice';
+
+// Components
 import LaunchControlXL from './LaunchControlXL';
 import EditPanel from './EditPanel';
 
-function UnconnectedApp({ state }) {
-  const { deselect } = launchControlSlice.actions;
+// Unpack Redux actions
+const { deselect } = launchControlSlice.actions;
+
+const App = () => {
   return (
     <div
       className="w-100 h-100 d-flex justify-content-center align-items-center"
+      // Deselect controls when clicking anywhere in app
       onClick={() => store.dispatch(deselect())}
     >
       <LaunchControlXL />
       <EditPanel />
     </div>
   );
-}
-
-const mapStateToProps = (state) => {
-  return {
-    state: state.launchControl,
-  };
 };
-
-const App = connect(mapStateToProps)(UnconnectedApp);
 
 export default App;

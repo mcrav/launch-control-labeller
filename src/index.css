@@ -5,10 +5,13 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Make body take full space so that items can be easily centered */
   height: 100%;
   width: 100%;
 }
 html {
+  /* Make HTML take full height, so that body can take full height and items
+  can be easily centered */
   height: 100%;
 }
 

@@ -7,8 +7,13 @@ import launchControlSlice from './launchControlSlice';
 // Unpack Redux actions
 const { initializeControl, startEditing } = launchControlSlice.actions;
 
+/**
+ * Component looking like mappable section of Launch Control XL device, allowing
+ * labels to be added to controls.
+ */
 function LaunchControlXL() {
   return (
+    // Smaller margin on right as EditPanel also has margin on left.
     <div className="launch-control-container shadow-lg ml-2 mr-1">
       <Knobs />
       <Sliders />
@@ -17,8 +22,13 @@ function LaunchControlXL() {
   );
 }
 
-// Knobs
+/**
+ * Knobs
+ */
 
+/**
+ * Three rows of eight knobs
+ */
 function Knobs() {
   return (
     <div className="d-flex flex-column mb-4">
@@ -29,6 +39,9 @@ function Knobs() {
   );
 }
 
+/**
+ * One row of eight knobs
+ */
 function KnobsRow({ rowId }) {
   const knobs = [];
   for (let i = 0; i < 8; i++) {
@@ -38,7 +51,11 @@ function KnobsRow({ rowId }) {
   return <div className="d-flex">{knobs}</div>;
 }
 
+/**
+ * Single knob which, when clicked, selects itself and allows label editing
+ */
 function UnconnectedKnob({ state, id }) {
+  // Initialize control in state with blank label
   useEffect(() => {
     store.dispatch(initializeControl({ controlId: id }));
   }, [id]);
@@ -48,6 +65,7 @@ function UnconnectedKnob({ state, id }) {
         state.editing === id ? 'highlight' : null
       } knob control shadow-sm`}
       onClick={(e) => {
+        // Stop click triggering deselect
         e.stopPropagation();
         store.dispatch(startEditing({ controlId: id }));
       }}
@@ -57,8 +75,13 @@ function UnconnectedKnob({ state, id }) {
   );
 }
 
-// Sliders
+/**
+ * Sliders
+ */
 
+/**
+ * One row of eight sliders
+ */
 function Sliders() {
   const sliders = [];
   for (let i = 0; i < 8; i++) {
@@ -68,6 +91,9 @@ function Sliders() {
   return <div className="d-flex mb-4">{sliders}</div>;
 }
 
+/**
+ * Single slider which, when clicked, selects itself and allows label editing
+ */
 function UnconnectedSlider({ id, state }) {
   useEffect(() => {
     store.dispatch(initializeControl({ controlId: id }));
@@ -87,8 +113,13 @@ function UnconnectedSlider({ id, state }) {
   );
 }
 
-// Buttons
+/**
+ * Buttons
+ */
 
+/**
+ * Two rows of eight buttons
+ */
 function Buttons() {
   return (
     <div className="d-flex flex-column">
@@ -98,6 +129,9 @@ function Buttons() {
   );
 }
 
+/**
+ * One row of eight buttons
+ */
 function ButtonsRow({ rowId }) {
   const buttons = [];
   for (let i = 0; i < 8; i++) {
@@ -107,6 +141,9 @@ function ButtonsRow({ rowId }) {
   return <div className="d-flex">{buttons}</div>;
 }
 
+/**
+ * Single button which, when clicked, selects itself and allows label editing
+ */
 function UnconnectedButton({ id, state }) {
   useEffect(() => {
     store.dispatch(initializeControl({ controlId: id }));

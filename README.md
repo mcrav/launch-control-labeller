@@ -1,3 +1,13 @@
+# Launch Control XL Mapping Labeller
+
+## [Demo](https://mcrav.gitlab.io/launch-control-labeller)
+
+Often when working on electronic music projects, it is hard to keep track of what parameters have been mapped to what controls, especially if you change MIDI mappings regularly, or work on a number of different projects simultaneously. This app allows you to add labels to a visual diagram of a Launch Control XL, so that you can easily see what parameters you have mapped to each control. The mapping labels can be easily saved to a file and loaded back into the app.
+
+## Technical
+
+The app is built with React, Redux and Bootstrap.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

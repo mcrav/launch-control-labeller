@@ -1,78 +1,47 @@
-$KNOB_DIM: 80px;
-$X_SPACING: 5px;
+// Page background color
+$BACKGROUND_COLOR: #fad4a2;
 
-$SLIDER_HEIGHT: $KNOB_DIM * 3 + $X_SPACING * 2;
-
-$LAUNCH_CONTROL_DIM: 8 * ($KNOB_DIM + $X_SPACING * 2);
-$LAUNCH_CONTROL_BORDER_RADIUS: 20px;
-
-$LINE_COLOR: #777;
+// Color of buttons in edit panel
 $BUTTON_COLOR: #ea6412;
 
+// Amount of rounding to give Launch Control container corners
+$LAUNCH_CONTROL_BORDER_RADIUS: 20px;
+
+// Paddinng for Launch Control container
+$LAUNCH_CONTROL_PADDING: 35px;
+
+// Background color for Launch Control container
+$LAUNCH_CONTROL_COLOR: #222;
+
+// Knob diameter, slider width, and button width
+$CONTROL_SIZE: 80px;
+
+// Height of slider control
+$SLIDER_HEIGHT: $CONTROL_SIZE * 3 + 10px;
+
+// Height of button control
+$BUTTON_HEIGHT: $CONTROL_SIZE * 0.5;
+
+// X spacing between controls.
+$X_SPACING: 5px;
+
+// Color of lines outlining controls
+$LINE_COLOR: #777;
+
+// Background color to highlight controls with when being edited
 $HIGHLIGHT_CONTROL_COLOR: #ea6412;
+
+// Background color to highlight controls with when hovered
 $HOVER_CONTROL_COLOR: #333;
 
-$BACKGROUND_COLOR: #fad4a2;
+// General
 
 body {
   animation: fadeIn 1s ease-in-out;
   background-color: $BACKGROUND_COLOR;
-  // font-family: Montserrat;
 }
 
-form {
-  background-color: #fff2;
-  border-radius: $LAUNCH_CONTROL_BORDER_RADIUS;
-}
-
-div.launch-control-container {
-  // border: 1px solid $LINE_COLOR;
-  border-radius: $LAUNCH_CONTROL_BORDER_RADIUS;
-  padding: $X_SPACING * 7;
-  background-color: #222;
-  color: white;
-}
-
-div.control {
-  text-align: center;
-  font-weight: 500;
-  padding: 2px;
-  overflow-wrap: break-word;
-  font-size: 12px;
-}
-
-div.control:hover {
-  background-color: $HOVER_CONTROL_COLOR;
-}
-
-div.knob {
-  width: $KNOB_DIM;
-  height: $KNOB_DIM;
-  border-radius: 50%;
-  border: 1px solid $LINE_COLOR;
-  margin: $X_SPACING;
-  padding-top: 20px;
-}
-
-div.slider {
-  height: $SLIDER_HEIGHT;
-  width: $KNOB_DIM;
-  margin: $X_SPACING;
-  border: 1px solid $LINE_COLOR;
-  overflow-wrap: break-word;
-}
-
-div.button {
-  height: $KNOB_DIM * 0.5;
-  width: $KNOB_DIM;
-  margin: $X_SPACING;
-  border: 1px solid $LINE_COLOR;
-}
-
-div.highlight {
-  background-color: $HIGHLIGHT_CONTROL_COLOR !important;
-}
-
+// Fade in animation
 @keyframes fadeIn {
   0% {
     opacity: 0;
@@ -80,6 +49,14 @@ div.highlight {
   100% {
     opacity: 1;
   }
+}
+
+// Edit Panel
+
+form {
+  // Make form slightly lighter than background
+  background-color: #fff2;
+  border-radius: $LAUNCH_CONTROL_BORDER_RADIUS;
 }
 
 .toolbar-btn {
@@ -96,4 +73,56 @@ div.highlight {
 
 h1.instructions {
   font-size: 16px;
+}
+
+// Controls
+
+div.launch-control-container {
+  border: 1.5px solid $LINE_COLOR;
+  border-radius: $LAUNCH_CONTROL_BORDER_RADIUS;
+  padding: $LAUNCH_CONTROL_PADDING;
+  background-color: $LAUNCH_CONTROL_COLOR;
+  color: white;
+}
+
+div.control {
+  text-align: center;
+  font-weight: 500;
+  padding: 2px;
+  overflow-wrap: break-word;
+  font-size: 12px;
+}
+
+div.control:hover {
+  background-color: $HOVER_CONTROL_COLOR;
+}
+
+div.knob {
+  width: $CONTROL_SIZE;
+  height: $CONTROL_SIZE;
+  border-radius: 50%;
+  border: 1px solid $LINE_COLOR;
+  margin: $X_SPACING;
+  // Make text vertically centered
+  padding-top: 20px;
+}
+
+div.slider {
+  height: $SLIDER_HEIGHT;
+  width: $CONTROL_SIZE;
+  margin: $X_SPACING;
+  border: 1px solid $LINE_COLOR;
+  overflow-wrap: break-word;
+}
+
+div.button {
+  height: $BUTTON_HEIGHT;
+  width: $CONTROL_SIZE;
+  margin: $X_SPACING;
+  border: 1px solid $LINE_COLOR;
+}
+
+div.highlight {
+  // Important so that it overrides hover highlight color
+  background-color: $HIGHLIGHT_CONTROL_COLOR !important;
 }
