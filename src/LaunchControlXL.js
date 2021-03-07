@@ -6,7 +6,7 @@ import launchControlSlice from './launchControlSlice';
 
 function LaunchControlXL() {
   return (
-    <div className="launch-control-container d-inline-flex flex-column shadow-lg">
+    <div className="launch-control-container shadow-lg ml-2 mr-1">
       <Knobs />
       <Sliders />
       <Buttons />
@@ -30,7 +30,10 @@ function UnconnectedSlider({ id, state }) {
       className={`${
         state.editing === id ? 'highlight' : null
       } slider control d-flex flex-column justify-content-center shadow-sm`}
-      onClick={() => store.dispatch(startEditing({ controlId: id }))}
+      onClick={(e) => {
+        e.stopPropagation();
+        store.dispatch(startEditing({ controlId: id }));
+      }}
     >
       {state.controls[id]}
     </div>
@@ -69,7 +72,10 @@ function UnconnectedButton({ id, state }) {
       className={`${
         state.editing === id ? 'highlight' : null
       } button control d-flex-justify-content-center align-items-center shadow-sm`}
-      onClick={() => store.dispatch(startEditing({ controlId: id }))}
+      onClick={(e) => {
+        e.stopPropagation();
+        store.dispatch(startEditing({ controlId: id }));
+      }}
     >
       {state.controls[id]}
     </div>
@@ -102,7 +108,10 @@ function UnconnectedKnob({ state, id }) {
       className={`${
         state.editing === id ? 'highlight' : null
       } knob control shadow-sm`}
-      onClick={() => store.dispatch(startEditing({ controlId: id }))}
+      onClick={(e) => {
+        e.stopPropagation();
+        store.dispatch(startEditing({ controlId: id }));
+      }}
     >
       {state.controls[id]}
     </div>

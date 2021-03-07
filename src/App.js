@@ -1,16 +1,17 @@
 import store from './store';
 import './App.scss';
-import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import launchControlSlice from './launchControlSlice';
 import LaunchControlXL from './LaunchControlXL';
 import EditPanel from './EditPanel';
 
 function UnconnectedApp({ state }) {
-  const { updateControlValue, startEditing } = launchControlSlice.actions;
-  const { editing } = state;
+  const { deselect } = launchControlSlice.actions;
   return (
-    <div className="w-100 h-100 d-flex justify-content-center mt-5">
+    <div
+      className="w-100 h-100 d-flex justify-content-center align-items-center"
+      onClick={() => store.dispatch(deselect())}
+    >
       <LaunchControlXL />
       <EditPanel />
     </div>

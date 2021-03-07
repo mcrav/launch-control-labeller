@@ -12,6 +12,13 @@ const launchControlSlice = createSlice({
       state.controls[controlId] = '';
       return state;
     },
+    loadMappings: (state, action) => {
+      const { mappings } = action.payload;
+      Object.keys(mappings).forEach((controlId) => {
+        state.controls[controlId] = mappings[controlId];
+      });
+      return state;
+    },
     startEditing: (state, action) => {
       const { controlId } = action.payload;
       if (state.editing === controlId) {
@@ -19,6 +26,10 @@ const launchControlSlice = createSlice({
       } else {
         state.editing = controlId;
       }
+      return state;
+    },
+    deselect: (state, action) => {
+      state.editing = null;
       return state;
     },
     updateControlValue: (state, action) => {
