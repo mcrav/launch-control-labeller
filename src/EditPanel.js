@@ -28,7 +28,7 @@ const load = (file) => {
 function UnconnectedEditPanel({ state }) {
   const { editing } = state;
   const loadInputRef = useRef();
-  const { updateControlValue, startEditing } = launchControlSlice.actions;
+  const { updateControlValue } = launchControlSlice.actions;
   return (
     <form className="shadow-sm mr-2 ml-1 py-4 px-3 d-flex flex-column align-items-center  ">
       <div className="form-group d-flex mb-4">
