@@ -53,10 +53,10 @@ body {
 
 // Edit Panel
 
-form {
-  // Make form slightly lighter than background
-  background-color: #fff2;
+div.edit-panel {
+  background-color: $LAUNCH_CONTROL_COLOR;
   border-radius: $LAUNCH_CONTROL_BORDER_RADIUS;
+  color: white;
 }
 
 .toolbar-btn {
@@ -98,13 +98,17 @@ div.control:hover {
 }
 
 div.knob {
-  width: $CONTROL_SIZE;
-  height: $CONTROL_SIZE;
-  border-radius: 50%;
-  border: 1px solid $LINE_COLOR;
+  // width: $CONTROL_SIZE;
+  // height: $CONTROL_SIZE;
+  // border-radius: 50%;
+  // border: 1px solid $LINE_CVOLOR;
   margin: $X_SPACING;
   // Make text vertically centered
   padding-top: 20px;
+}
+
+circle.knob.highlight {
+  fill: $HIGHLIGHT_CONTROL_COLOR;
 }
 
 div.slider {
@@ -122,7 +126,27 @@ div.button {
   border: 1px solid $LINE_COLOR;
 }
 
-div.highlight {
+.control-line {
+  stroke-width: 1;
+  stroke: $LINE_COLOR;
+  fill: transparent;
+}
+
+.control-bold-line {
+  stroke-width: 2;
+  stroke: $LINE_COLOR;
+  fill: transparent;
+}
+
+.control-label {
+  fill: white;
+}
+
+svg.highlight {
   // Important so that it overrides hover highlight color
   background-color: $HIGHLIGHT_CONTROL_COLOR !important;
+}
+
+div.slider-text {
+  margin-top: -$SLIDER_HEIGHT / 2;
 }

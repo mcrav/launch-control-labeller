@@ -42,7 +42,7 @@ function UnconnectedEditPanel({ state }) {
   // Ref to invisible file input used for loading JSON file with mapping labels
   const loadInputRef = useRef();
   return (
-    <form className="shadow-sm mr-2 ml-1 py-4 px-3 d-flex flex-column align-items-center">
+    <div className="edit-panel shadow-sm mr-2 ml-1 py-4 px-3 d-flex flex-column align-items-center">
       {/* Save / Load Buttons */}
       <div className="form-group d-flex mb-4">
         {/* Load */}
@@ -93,7 +93,7 @@ function UnconnectedEditPanel({ state }) {
           }}
         ></input>
       </div>
-    </form>
+    </div>
   );
 }
 
