@@ -22,6 +22,9 @@ const ranges = [
   [77, 85],
 ];
 
+// Initialize ranges for MIDI event callback. Only look for knobs and sliders as
+// they are simple to handle. Haven't decided yet exactly how to handle button
+// events as the way they work with Ableton is a bit more complicated.
 ranges.forEach((range) => {
   for (let i = range[0]; i < range[1]; i++) {
     initialPositionsState[i] = 0.5;
@@ -29,19 +32,23 @@ ranges.forEach((range) => {
 });
 
 // Knob diameter, slider width, and button width
+// Must be aligned with the value in App.scss
 const CONTROL_SIZE = 80;
 
 // Height of slider control
+// Must be aligned with value in App.scss
 const SLIDER_HEIGHT = CONTROL_SIZE * 3 + 10;
 
 /**
  * Component looking like mappable section of Launch Control XL device, allowing
  * labels to be added to controls.
  */
-function LaunchControlXL({ onSelectControl, labelInputRef }) {
+function LaunchControlXL({ labelInputRef }) {
   const [positionsState, setPositionsState] = useState(initialPositionsState);
   const positionsStateRef = useRef({});
   positionsStateRef.current = positionsState;
+
+  // Connect to physical Launch Control device if connected
   useEffect(() => {
     // Don't connect to Launch Control if Web MIDI API not available (Firefox)
     if (navigator.requestMIDIAccess !== undefined) {
@@ -64,13 +71,17 @@ function LaunchControlXL({ onSelectControl, labelInputRef }) {
     }
   }, []);
 
+  // Handle Launch Control MIDI messages and update state accordingly
   const onMIDIMessage = (message) => {
-    console.log(message.data);
     const { data } = message;
     switch (data[0]) {
+      // User mode
       case 176:
+      // Factory mode
+      // eslint-disable-next-line
       case 184:
         const newPositionsState = { ...positionsStateRef.current };
+        // 127 is max value so this normalizes control position to 0-1 range
         newPositionsState[data[1]] = data[2] / 127;
         setPositionsState(newPositionsState);
         break;
@@ -161,6 +172,7 @@ function UnconnectedKnob({ state, id, position, labelInputRef }) {
       }}
     >
       <svg width={CONTROL_SIZE} height={CONTROL_SIZE}>
+        {/* Main circle */}
         <circle
           cx={cx}
           cy={cy}
@@ -169,6 +181,7 @@ function UnconnectedKnob({ state, id, position, labelInputRef }) {
             state.editing === id ? 'highlight' : null
           } knob control-line`}
         />
+        {/* Rotating line */}
         <line
           x1={cx}
           x2={cx}
@@ -178,7 +191,9 @@ function UnconnectedKnob({ state, id, position, labelInputRef }) {
           className="control-bold-line"
         />
       </svg>
+      {/* Div just to allow hover highlighting */}
       <div className="knob-circle"></div>
+      {/* Control label */}
       <p className="knob-label label-wrap p-1">{state.controls[id]}</p>
     </div>
   );
@@ -217,23 +232,30 @@ function UnconnectedSlider({ id, state, position, labelInputRef }) {
     <div
       className="slider shadow-sm position-relative"
       onClick={(e) => {
+        // Stop propagation so click doesn't deselect control
         e.stopPropagation();
         store.dispatch(startEditing({ controlId: id }));
         // Start editing label
         labelInputRef.current.focus();
       }}
     >
+      {/* Absolutely positioned div overlays SVG with control label */}
       <div className="slider-label d-flex align-items-center justify-content-center text-center">
         <p className="label-wrap">{state.controls[id]}</p>
       </div>
+      {/* Slider with movable level line */}
       <svg width={CONTROL_SIZE} height={SLIDER_HEIGHT} className="control">
+        {/* Slider rect */}
         <rect
-          className={`control-line ${state.editing === id ? 'highlight' : ''} `}
+          className={`slider control-line ${
+            state.editing === id ? 'highlight' : ''
+          } `}
           x={0}
           y={0}
           width={CONTROL_SIZE}
           height={SLIDER_HEIGHT}
         />
+        {/* Movable slider level line */}
         <line
           className="slider-level control-bold-line"
           x1={0}
@@ -293,6 +315,7 @@ function UnconnectedButton({ id, state, labelInputRef }) {
         state.editing === id ? 'highlight' : ''
       } button control d-flex justify-content-center align-items-center shadow-sm`}
       onClick={(e) => {
+        // Stop propagation so click doesn't deselect control
         e.stopPropagation();
         store.dispatch(startEditing({ controlId: id }));
         // Start editing label

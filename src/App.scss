@@ -59,24 +59,28 @@ div.edit-panel {
   color: white;
 }
 
+// Load / Save button
 .toolbar-btn {
   background-color: $BUTTON_COLOR;
   border-color: $BUTTON_COLOR;
   color: white;
 }
 
+// Load / Save button hover
 .toolbar-btn:hover {
   color: white;
   background-color: $HOVER_CONTROL_COLOR;
   border-color: $HOVER_CONTROL_COLOR;
 }
 
+// "Instructions" header
 h1.instructions {
   font-size: 16px;
 }
 
 // Controls
 
+// Container for entire launch control diagram
 div.launch-control-container {
   border: 1.5px solid $LINE_COLOR;
   border-radius: $LAUNCH_CONTROL_BORDER_RADIUS;
@@ -85,18 +89,7 @@ div.launch-control-container {
   color: white;
 }
 
-div.control {
-  text-align: center;
-  font-weight: 500;
-  padding: 2px;
-  overflow-wrap: break-word;
-  font-size: 12px;
-}
-
-div.control:hover {
-  background-color: $HOVER_CONTROL_COLOR;
-}
-
+// Circular div positioned absolutely on knobs to allow hover highlighting
 div.knob-circle {
   position: absolute;
   top: $CONTROL_SIZE / 4;
@@ -111,16 +104,13 @@ div.knob-circle:hover {
   background-color: $HOVER_CONTROL_COLOR;
 }
 
+// Container div for knob SVG and label
 div.knob {
-  // width: $CONTROL_SIZE;
-  // height: $CONTROL_SIZE;
-  // border-radius: 50%;
-  // border: 1px solid $LINE_CVOLOR;
   margin: $X_SPACING;
-  // Make text vertically centered
   padding-top: 20px;
 }
 
+// Knob label positioned absolutely to overlap SVG
 p.knob-label {
   position: absolute;
   top: $CONTROL_SIZE / 2.25;
@@ -130,26 +120,17 @@ p.knob-label {
   color: white;
 }
 
-circle.knob.highlight {
-  fill: $HIGHLIGHT_CONTROL_COLOR;
-}
-
-div.button.highlight {
-  background-color: $HIGHLIGHT_CONTROL_COLOR !important;
-}
-
-rect.highlight {
-  fill: $HIGHLIGHT_CONTROL_COLOR !important;
-}
-
-div.slider-label:hover {
-  background-color: $HOVER_CONTROL_COLOR;
-}
-
+// Knob SVG circle
 circle.knob {
   fill: transparent;
 }
 
+// Highlight knob when selected
+circle.knob.highlight {
+  fill: $HIGHLIGHT_CONTROL_COLOR;
+}
+
+// Slider container div containing SVG and label div
 div.slider {
   height: $SLIDER_HEIGHT;
   width: $CONTROL_SIZE;
@@ -157,6 +138,18 @@ div.slider {
   border: 1px solid $LINE_COLOR;
 }
 
+// Highlight slider when selected
+rect.slider.highlight {
+  fill: $HIGHLIGHT_CONTROL_COLOR !important;
+}
+
+// Highlight slider when hovered. Using the label div for convenience as it
+// takes up the same shape as the SVG slider rect.
+div.slider-label:hover {
+  background-color: $HOVER_CONTROL_COLOR;
+}
+
+// Slider label positioned absolutely over SVG
 div.slider-label {
   height: $SLIDER_HEIGHT;
   width: $CONTROL_SIZE;
@@ -167,6 +160,7 @@ div.slider-label {
   font-weight: 500;
 }
 
+// Wrap text in control labels
 .label-wrap {
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -174,6 +168,7 @@ div.slider-label {
   word-break: break-word;
 }
 
+// Button control on Launch Control diagram
 div.button {
   height: $BUTTON_HEIGHT;
   width: $CONTROL_SIZE;
@@ -181,22 +176,26 @@ div.button {
   border: 1px solid $LINE_COLOR;
 }
 
+// Highlight button when selected
+div.button.highlight {
+  background-color: $HIGHLIGHT_CONTROL_COLOR !important;
+}
+
+// Highlight button when hovered
+div.button:hover {
+  background-color: $HOVER_CONTROL_COLOR;
+}
+
+// Line in control SVG
 .control-line {
   stroke-width: 1;
   stroke: $LINE_COLOR;
   fill: transparent;
 }
 
+// Bold line in control SVG
 .control-bold-line {
-  stroke-width: 2;
+  stroke-width: 3;
   stroke: $LINE_COLOR;
   fill: transparent;
-}
-
-.control-label {
-  fill: white;
-}
-
-div.slider-text {
-  margin-top: -$SLIDER_HEIGHT / 2;
 }

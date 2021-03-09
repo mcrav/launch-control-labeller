@@ -41,7 +41,10 @@ function UnconnectedEditPanel({ state, onLabelInputRef }) {
   const { editing } = state;
   // Ref to invisible file input used for loading JSON file with mapping labels
   const loadInputRef = useRef();
+  // Ref to label input field so that it can be focused when a control is selected
   const labelInputRef = useRef();
+  // Send the label input ref to callback so it can be passed to LaunchControlXL
+  // component
   useEffect(() => {
     onLabelInputRef(labelInputRef);
   }, [onLabelInputRef]);
@@ -88,7 +91,6 @@ function UnconnectedEditPanel({ state, onLabelInputRef }) {
           placeholder="Enter mapping label here..."
           // Stop clicking here deselecting controls
           onClick={(e) => {
-            console.log('clicked');
             // Don't deselect control when editing label
             e.stopPropagation();
           }}

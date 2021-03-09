@@ -4,9 +4,16 @@
 
 Often when working on electronic music projects, it is hard to keep track of what parameters have been mapped to what controls, especially if you change MIDI mappings regularly, or work on a number of different projects simultaneously. This app allows you to add labels to a visual diagram of a Launch Control XL, so that you can easily see what parameters you have mapped to each control. The mapping labels can be easily saved to a file and loaded back into the app.
 
+It also automatically syncs up with your physical Launch Control XL device, so controls in the app will move as you move them on the device. This only works in Chrome.
+
+### Keyboard shortcuts
+
+**Enter** - Deselect all controls
+**Arrow keys** - Move around controls
+
 ## Technical
 
-The app is built with React, Redux and Bootstrap.
+The app is built with React, Redux and Bootstrap. The connection to physical launch control devices uses the [MIDIAccess](https://developer.mozilla.org/en-US/docs/Web/API/MIDIAccess) interface of the Web MIDI API.
 
 # Getting Started with Create React App
 
