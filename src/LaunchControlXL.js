@@ -1,7 +1,7 @@
 import store from './store';
 import './App.scss';
 import { useEffect, useRef, useState } from 'react';
-import { connect, Provider } from 'react-redux';
+import { connect } from 'react-redux';
 import launchControlSlice from './launchControlSlice';
 
 // Unpack Redux actions
@@ -30,11 +30,6 @@ const CONTROL_SIZE = 80;
 // Height of slider control
 const SLIDER_HEIGHT = CONTROL_SIZE * 3 + 10;
 
-// Height of button control
-const BUTTON_HEIGHT = CONTROL_SIZE * 0.5;
-
-const LINE_COLOR = '#777';
-
 /**
  * Component looking like mappable section of Launch Control XL device, allowing
  * labels to be added to controls.
@@ -44,31 +39,38 @@ function LaunchControlXL() {
   const positionsStateRef = useRef({});
   positionsStateRef.current = positionsState;
   useEffect(() => {
-    navigator.requestMIDIAccess().then((access) => {
-      const values = access.inputs.values();
-      let value = values.next();
-      while (value.value !== undefined) {
-        if (value.value.name === 'Launch Control XL MIDI 1') {
-          value.value.onmidimessage = onMIDIMessage;
+    // Don't connect to Launch Control if Web MIDI API not available (Firefox)
+    if (navigator.requestMIDIAccess !== undefined) {
+      navigator.requestMIDIAccess().then((access) => {
+        const values = access.inputs.values();
+        let value = values.next();
+        while (value.value !== undefined) {
+          if (value.value.name === 'Launch Control XL MIDI 1') {
+            value.value.onmidimessage = onMIDIMessage;
 
-          console.log('Found Launch Control XL.');
+            console.log('Found Launch Control XL.');
+          }
+          value = values.next();
         }
-        value = values.next();
-      }
-      access.onstatechange = function (e) {
-        // Print information about the (dis)connected MIDI controller
-        console.log(e.port.name, e.port.manufacturer, e.port.state);
-      };
-    });
+        access.onstatechange = function (e) {
+          // Print information about the (dis)connected MIDI controller
+          console.log(e.port.name, e.port.manufacturer, e.port.state);
+        };
+      });
+    }
   }, []);
 
   const onMIDIMessage = (message) => {
     const { data } = message;
     switch (data[0]) {
       case 176:
+      case 184:
         const newPositionsState = { ...positionsStateRef.current };
         newPositionsState[data[1]] = data[2] / 127;
         setPositionsState(newPositionsState);
+        break;
+      default:
+        return;
     }
   };
 
@@ -123,7 +125,9 @@ function UnconnectedKnob({ state, id, position }) {
   const cy = CONTROL_SIZE / 2;
   return (
     <div
-      className={`${state.editing === id ? 'highlight' : null} knob`}
+      className={`${
+        state.editing === id ? 'highlight' : null
+      } knob position-relative`}
       onClick={(e) => {
         // Stop click triggering deselect
         e.stopPropagation();
@@ -148,6 +152,7 @@ function UnconnectedKnob({ state, id, position }) {
           className="control-bold-line"
         />
       </svg>
+      <p className="knob-label label-wrap p-1">{state.controls[id]}</p>
     </div>
   );
 }
@@ -178,12 +183,15 @@ function UnconnectedSlider({ id, state, position }) {
   }, [id]);
   return (
     <div
-      className="slider shadow-sm"
+      className="slider shadow-sm position-relative"
       onClick={(e) => {
         e.stopPropagation();
         store.dispatch(startEditing({ controlId: id }));
       }}
     >
+      <div className="slider-label d-flex align-items-center justify-content-center text-center">
+        <p className="label-wrap">{state.controls[id]}</p>
+      </div>
       <svg
         width={CONTROL_SIZE}
         height={SLIDER_HEIGHT}
@@ -197,24 +205,14 @@ function UnconnectedSlider({ id, state, position }) {
           height={SLIDER_HEIGHT}
         />
         <line
-          // className="control-line"
+          className="slider-level control-bold-line"
           x1={0}
           x2={CONTROL_SIZE}
           y1={(1 - position) * SLIDER_HEIGHT}
           y2={(1 - position) * SLIDER_HEIGHT}
-          className="control-bold-line"
         />
       </svg>
     </div>
-    // <div
-    //   onClick={(e) => {
-    //     e.stopPropagation();
-    //     store.dispatch(startEditing({ controlId: id }));
-    //   }}
-    // >
-    //   {state.controls[id]}
-    //   {position}
-    // </div>
   );
 }
 

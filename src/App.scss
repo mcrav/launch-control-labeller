@@ -107,8 +107,21 @@ div.knob {
   padding-top: 20px;
 }
 
+p.knob-label {
+  position: absolute;
+  top: $CONTROL_SIZE / 2.25;
+  text-align: center;
+  font-size: smaller;
+  font-weight: 500;
+  color: white;
+}
+
 circle.knob.highlight {
   fill: $HIGHLIGHT_CONTROL_COLOR;
+}
+
+circle.knob {
+  fill: transparent;
 }
 
 div.slider {
@@ -116,7 +129,23 @@ div.slider {
   width: $CONTROL_SIZE;
   margin: $X_SPACING;
   border: 1px solid $LINE_COLOR;
+}
+
+div.slider-label {
+  height: $SLIDER_HEIGHT;
+  width: $CONTROL_SIZE;
+  position: absolute;
+  display: inline-block;
+  top: 0;
+  left: 0;
+}
+
+.label-wrap {
   overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-all;
+  word-break: break-word;
+  // hyphens: auto;
 }
 
 div.button {
