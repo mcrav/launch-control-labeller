@@ -49,7 +49,7 @@ const SLIDER_HEIGHT = CONTROL_SIZE * 3 + 10;
  * Component looking like mappable section of Launch Control XL device, allowing
  * labels to be added to controls.
  */
-function LaunchControlXL() {
+function LaunchControlXL({ onSelectControl }) {
   const [positionsState, setPositionsState] = useState(initialPositionsState);
   const positionsStateRef = useRef({});
   positionsStateRef.current = positionsState;
@@ -270,12 +270,11 @@ function UnconnectedButton({ id, state }) {
   useEffect(() => {
     store.dispatch(initializeControl({ controlId: id }));
   }, [id]);
-  console.log(state.editing, id);
   return (
     <div
       className={`${
         state.editing === id ? 'highlight' : ''
-      } button control d-flex-justify-content-center align-items-center shadow-sm`}
+      } button control d-flex justify-content-center align-items-center shadow-sm`}
       onClick={(e) => {
         e.stopPropagation();
         store.dispatch(startEditing({ controlId: id }));
