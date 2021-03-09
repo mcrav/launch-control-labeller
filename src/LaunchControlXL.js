@@ -49,7 +49,7 @@ const SLIDER_HEIGHT = CONTROL_SIZE * 3 + 10;
  * Component looking like mappable section of Launch Control XL device, allowing
  * labels to be added to controls.
  */
-function LaunchControlXL({ onSelectControl }) {
+function LaunchControlXL({ onSelectControl, labelInputRef }) {
   const [positionsState, setPositionsState] = useState(initialPositionsState);
   const positionsStateRef = useRef({});
   positionsStateRef.current = positionsState;
@@ -93,9 +93,9 @@ function LaunchControlXL({ onSelectControl }) {
   return (
     // Smaller margin on right as EditPanel also has margin on left.
     <div className="launch-control-container shadow-lg ml-2 mr-1">
-      <Knobs positionsState={positionsState} />
-      <Sliders state={positionsState} />
-      <Buttons />
+      <Knobs positionsState={positionsState} labelInputRef={labelInputRef} />
+      <Sliders state={positionsState} labelInputRef={labelInputRef} />
+      <Buttons labelInputRef={labelInputRef} />
     </div>
   );
 }
@@ -107,12 +107,24 @@ function LaunchControlXL({ onSelectControl }) {
 /**
  * Three rows of eight knobs
  */
-function Knobs({ positionsState }) {
+function Knobs({ positionsState, labelInputRef }) {
   return (
     <div className="d-flex flex-column mb-4">
-      <KnobsRow positionsState={positionsState} rowId={13} />
-      <KnobsRow positionsState={positionsState} rowId={29} />
-      <KnobsRow positionsState={positionsState} rowId={49} />
+      <KnobsRow
+        positionsState={positionsState}
+        rowId={13}
+        labelInputRef={labelInputRef}
+      />
+      <KnobsRow
+        positionsState={positionsState}
+        rowId={29}
+        labelInputRef={labelInputRef}
+      />
+      <KnobsRow
+        positionsState={positionsState}
+        rowId={49}
+        labelInputRef={labelInputRef}
+      />
     </div>
   );
 }
@@ -120,11 +132,18 @@ function Knobs({ positionsState }) {
 /**
  * One row of eight knobs
  */
-function KnobsRow({ rowId, positionsState }) {
+function KnobsRow({ rowId, positionsState, labelInputRef }) {
   const knobs = [];
   for (let i = 0; i < 8; i++) {
     const id = i + rowId;
-    knobs.push(<Knob id={id} key={id} position={positionsState[id]} />);
+    knobs.push(
+      <Knob
+        id={id}
+        key={id}
+        position={positionsState[id]}
+        labelInputRef={labelInputRef}
+      />
+    );
   }
   return <div className="d-flex">{knobs}</div>;
 }
@@ -132,7 +151,7 @@ function KnobsRow({ rowId, positionsState }) {
 /**
  * Single knob which, when clicked, selects itself and allows label editing
  */
-function UnconnectedKnob({ state, id, position }) {
+function UnconnectedKnob({ state, id, position, labelInputRef }) {
   // Initialize control in state with blank label
   useEffect(() => {
     store.dispatch(initializeControl({ controlId: id }));
@@ -148,6 +167,8 @@ function UnconnectedKnob({ state, id, position }) {
         // Stop click triggering deselect
         e.stopPropagation();
         store.dispatch(startEditing({ controlId: id }));
+        // Start editing label
+        labelInputRef.current.focus();
       }}
     >
       <svg width={CONTROL_SIZE} height={CONTROL_SIZE}>
@@ -181,11 +202,16 @@ function UnconnectedKnob({ state, id, position }) {
 /**
  * One row of eight sliders
  */
-function Sliders({ state }) {
+function Sliders({ state, labelInputRef }) {
   return (
     <div className="d-flex mb-4">
       {sliderIds.map((id) => (
-        <Slider id={id} key={id} position={state[id]} />
+        <Slider
+          id={id}
+          key={id}
+          position={state[id]}
+          labelInputRef={labelInputRef}
+        />
       ))}
     </div>
   );
@@ -194,7 +220,7 @@ function Sliders({ state }) {
 /**
  * Single slider which, when clicked, selects itself and allows label editing
  */
-function UnconnectedSlider({ id, state, position }) {
+function UnconnectedSlider({ id, state, position, labelInputRef }) {
   useEffect(() => {
     store.dispatch(initializeControl({ controlId: id }));
   }, [id]);
@@ -204,6 +230,8 @@ function UnconnectedSlider({ id, state, position }) {
       onClick={(e) => {
         e.stopPropagation();
         store.dispatch(startEditing({ controlId: id }));
+        // Start editing label
+        labelInputRef.current.focus();
       }}
     >
       <div className="slider-label d-flex align-items-center justify-content-center text-center">
@@ -236,16 +264,16 @@ function UnconnectedSlider({ id, state, position }) {
 /**
  * Two rows of eight buttons
  */
-function Buttons() {
+function Buttons({ labelInputRef }) {
   return (
     <div className="d-flex flex-column">
       <div className="d-flex">
-        <ButtonsGroup groupId={41} />
-        <ButtonsGroup groupId={57} />
+        <ButtonsGroup groupId={41} labelInputRef={labelInputRef} />
+        <ButtonsGroup groupId={57} labelInputRef={labelInputRef} />
       </div>
       <div className="d-flex">
-        <ButtonsGroup groupId={73} />
-        <ButtonsGroup groupId={89} />
+        <ButtonsGroup groupId={73} labelInputRef={labelInputRef} />
+        <ButtonsGroup groupId={89} labelInputRef={labelInputRef} />
       </div>
     </div>
   );
@@ -254,11 +282,11 @@ function Buttons() {
 /**
  * One row of eight buttons
  */
-function ButtonsGroup({ groupId }) {
+function ButtonsGroup({ groupId, labelInputRef }) {
   const buttons = [];
   for (let i = 0; i < 4; i++) {
     const id = groupId + i;
-    buttons.push(<Button id={id} key={id} />);
+    buttons.push(<Button id={id} key={id} labelInputRef={labelInputRef} />);
   }
   return <div className="d-flex">{buttons}</div>;
 }
@@ -266,7 +294,7 @@ function ButtonsGroup({ groupId }) {
 /**
  * Single button which, when clicked, selects itself and allows label editing
  */
-function UnconnectedButton({ id, state }) {
+function UnconnectedButton({ id, state, labelInputRef }) {
   useEffect(() => {
     store.dispatch(initializeControl({ controlId: id }));
   }, [id]);
@@ -278,6 +306,8 @@ function UnconnectedButton({ id, state }) {
       onClick={(e) => {
         e.stopPropagation();
         store.dispatch(startEditing({ controlId: id }));
+        // Start editing label
+        labelInputRef.current.focus();
       }}
     >
       {state.controls[id]}

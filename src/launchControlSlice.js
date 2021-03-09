@@ -6,6 +6,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const launchControlSlice = createSlice({
   name: 'launchControl',
   initialState: {
+    // Ref to label input so it can be clicked when control selected
+    labelInputRef: null,
     // Control ID currently being edited
     editing: null,
     // Labels for all controls

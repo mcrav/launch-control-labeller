@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // Sass
 import './App.scss';
@@ -15,14 +15,17 @@ import EditPanel from './EditPanel';
 const { deselect } = launchControlSlice.actions;
 
 const App = () => {
+  const [labelInputRef, setLabelInputRef] = useState(null);
   return (
     <div
       className="w-100 h-100 d-flex justify-content-center align-items-center"
       // Deselect controls when clicking anywhere in app
       onClick={() => store.dispatch(deselect())}
     >
-      <LaunchControlXL />
-      <EditPanel />
+      <LaunchControlXL labelInputRef={labelInputRef} />
+      <EditPanel
+        onLabelInputRef={(labelInputRef) => setLabelInputRef(labelInputRef)}
+      />
     </div>
   );
 };
