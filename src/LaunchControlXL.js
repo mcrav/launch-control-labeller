@@ -55,11 +55,12 @@ function LaunchControlXL({ labelInputRef }) {
       navigator.requestMIDIAccess().then((access) => {
         const values = access.inputs.values();
         let value = values.next();
-        while (value.value !== undefined) {
-          if (value.value.name === 'Launch Control XL MIDI 1') {
+        let found = false;
+        while (value.value !== undefined && !found) {
+          if (value.value.name.indexOf('Launch Control XL') !== -1) {
             value.value.onmidimessage = onMIDIMessage;
-
             console.log('Found Launch Control XL.');
+            found = true;
           }
           value = values.next();
         }
