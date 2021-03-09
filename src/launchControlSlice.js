@@ -1,5 +1,31 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const controlSequence = [];
+const ranges = [
+  // Knobs row 1
+  [13, 21],
+  // Knobs row 2
+  [29, 37],
+  // Knobs row 3
+  [49, 57],
+  // Sliders
+  [77, 85],
+  // Buttons top left four
+  [41, 45],
+  // Buttons top right four
+  [57, 60],
+  // Buttons bottom left four
+  [73, 77],
+  // Buttons bottom right four
+  [89, 93],
+];
+
+ranges.forEach((range) => {
+  for (let i = range[0]; i < range[1]; i++) {
+    controlSequence.push(i);
+  }
+});
+
 /**
  * State for editing Launch Control XL MIDI mapping labels
  */
@@ -36,6 +62,13 @@ const launchControlSlice = createSlice({
         state.editing = null;
       } else {
         state.editing = controlId;
+      }
+      return state;
+    },
+    shiftEditingControl: (state, action) => {
+      if (state.editing !== null) {
+        const editingIndex = controlSequence.indexOf(state.editing);
+        state.editing = controlSequence[editingIndex + action.payload];
       }
       return state;
     },

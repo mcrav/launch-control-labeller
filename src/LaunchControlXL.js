@@ -22,17 +22,6 @@ const ranges = [
   [77, 85],
 ];
 
-// const buttonRanges = [
-//   // Buttons top left four
-//   [41, 45],
-//   // Buttons bottom left four
-//   [73, 77],
-//   // Buttons top right four
-//   [57, 60],
-//   // Buttons bottom right four
-//   [89, 93],
-// ];
-
 ranges.forEach((range) => {
   for (let i = range[0]; i < range[1]; i++) {
     initialPositionsState[i] = 0.5;

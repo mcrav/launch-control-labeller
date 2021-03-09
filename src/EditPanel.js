@@ -6,11 +6,7 @@ import { connect } from 'react-redux';
 import launchControlSlice from './launchControlSlice';
 
 // Unpack Redux actions
-const {
-  updateControlValue,
-  loadMappings,
-  setLabelInputRef,
-} = launchControlSlice.actions;
+const { updateControlValue, loadMappings } = launchControlSlice.actions;
 
 /**
  * Offer user download of JSON file containing all their mapping labels
@@ -45,11 +41,10 @@ function UnconnectedEditPanel({ state, onLabelInputRef }) {
   const { editing } = state;
   // Ref to invisible file input used for loading JSON file with mapping labels
   const loadInputRef = useRef();
-  console.log('LOOK', loadInputRef.current);
   const labelInputRef = useRef();
   useEffect(() => {
     onLabelInputRef(labelInputRef);
-  }, []);
+  }, [onLabelInputRef]);
   return (
     <div className="edit-panel shadow-sm mr-2 ml-1 py-4 px-3 d-flex flex-column align-items-center">
       {/* Save / Load Buttons */}
