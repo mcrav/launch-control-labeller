@@ -194,7 +194,7 @@ function UnconnectedKnob({ state, id, position, labelInputRef }) {
       {/* Div just to allow hover highlighting */}
       <div className="knob-circle"></div>
       {/* Control label */}
-      <p className="knob-label label-wrap p-1">{state.controls[id]}</p>
+      <p className="knob-label label-wrap p-1 w-100">{state.controls[id]}</p>
     </div>
   );
 }
@@ -313,7 +313,7 @@ function UnconnectedButton({ id, state, labelInputRef }) {
     <div
       className={`${
         state.editing === id ? 'highlight' : ''
-      } button control d-flex justify-content-center align-items-center shadow-sm`}
+      } p-1 button control d-flex justify-content-center align-items-center shadow-sm`}
       onClick={(e) => {
         // Stop propagation so click doesn't deselect control
         e.stopPropagation();
