@@ -12,11 +12,26 @@ const sliderIds = [77, 78, 79, 80, 81, 82, 83, 84];
 const initialPositionsState = {};
 
 const ranges = [
+  // Knobs row 1
   [13, 21],
+  // Knobs row 2
   [29, 37],
+  // Knobs row 3
   [49, 57],
+  // Sliders
   [77, 85],
 ];
+
+// const buttonRanges = [
+//   // Buttons top left four
+//   [41, 45],
+//   // Buttons bottom left four
+//   [73, 77],
+//   // Buttons top right four
+//   [57, 60],
+//   // Buttons bottom right four
+//   [89, 93],
+// ];
 
 ranges.forEach((range) => {
   for (let i = range[0]; i < range[1]; i++) {
@@ -61,6 +76,7 @@ function LaunchControlXL() {
   }, []);
 
   const onMIDIMessage = (message) => {
+    console.log(message.data);
     const { data } = message;
     switch (data[0]) {
       case 176:
@@ -126,7 +142,7 @@ function UnconnectedKnob({ state, id, position }) {
   return (
     <div
       className={`${
-        state.editing === id ? 'highlight' : null
+        state.editing === id ? 'highlight' : ''
       } knob position-relative`}
       onClick={(e) => {
         // Stop click triggering deselect
@@ -152,6 +168,7 @@ function UnconnectedKnob({ state, id, position }) {
           className="control-bold-line"
         />
       </svg>
+      <div className="knob-circle"></div>
       <p className="knob-label label-wrap p-1">{state.controls[id]}</p>
     </div>
   );
@@ -192,13 +209,9 @@ function UnconnectedSlider({ id, state, position }) {
       <div className="slider-label d-flex align-items-center justify-content-center text-center">
         <p className="label-wrap">{state.controls[id]}</p>
       </div>
-      <svg
-        width={CONTROL_SIZE}
-        height={SLIDER_HEIGHT}
-        className={`control ${state.editing === id ? 'highlight' : null} `}
-      >
+      <svg width={CONTROL_SIZE} height={SLIDER_HEIGHT} className="control">
         <rect
-          className="control-line"
+          className={`control-line ${state.editing === id ? 'highlight' : ''} `}
           x={0}
           y={0}
           width={CONTROL_SIZE}
@@ -226,8 +239,14 @@ function UnconnectedSlider({ id, state, position }) {
 function Buttons() {
   return (
     <div className="d-flex flex-column">
-      <ButtonsRow rowId="1" />
-      <ButtonsRow rowId="2" />
+      <div className="d-flex">
+        <ButtonsGroup groupId={41} />
+        <ButtonsGroup groupId={57} />
+      </div>
+      <div className="d-flex">
+        <ButtonsGroup groupId={73} />
+        <ButtonsGroup groupId={89} />
+      </div>
     </div>
   );
 }
@@ -235,10 +254,10 @@ function Buttons() {
 /**
  * One row of eight buttons
  */
-function ButtonsRow({ rowId }) {
+function ButtonsGroup({ groupId }) {
   const buttons = [];
-  for (let i = 0; i < 8; i++) {
-    const id = `button-${rowId}-${i + 1}`;
+  for (let i = 0; i < 4; i++) {
+    const id = groupId + i;
     buttons.push(<Button id={id} key={id} />);
   }
   return <div className="d-flex">{buttons}</div>;
@@ -251,10 +270,11 @@ function UnconnectedButton({ id, state }) {
   useEffect(() => {
     store.dispatch(initializeControl({ controlId: id }));
   }, [id]);
+  console.log(state.editing, id);
   return (
     <div
       className={`${
-        state.editing === id ? 'highlight' : null
+        state.editing === id ? 'highlight' : ''
       } button control d-flex-justify-content-center align-items-center shadow-sm`}
       onClick={(e) => {
         e.stopPropagation();
