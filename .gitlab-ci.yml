@@ -1,20 +1,16 @@
-image: 'node:latest'
-
-cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-    - .npm/
+image: "node:latest"
 
 stages:
   - deploy
 
 before_script:
-  - npm ci --cache .npm --prefer-offline
+  - yarn set version berry
+  - yarn
 
 pages:
   stage: deploy
   script:
-    - CI=true npm run build
+    - CI=true yarn build
     - rm -rf public
     - mv build public
   artifacts:
